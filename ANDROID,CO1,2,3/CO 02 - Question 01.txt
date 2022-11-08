@@ -1,0 +1,279 @@
+
+Register Form Page
+------------------------------------------------------------------- XML Code -------------------------------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:id="@+id/main_layout"
+    android:paddingVertical="10dp"
+    tools:context=".SharedPreferencesQues05Activity">
+
+    <EditText
+        android:id="@+id/fullname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:layout_marginTop="30dp"
+        android:hint="Full Name"/>
+
+    <EditText
+        android:id="@+id/emailid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:inputType="textEmailAddress"
+        android:hint="Email ID"/>
+
+    <RadioGroup
+        android:id="@+id/gender_radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/male_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"/>
+
+        <RadioButton
+            android:id="@+id/female_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Female"/>
+
+        <RadioButton
+            android:id="@+id/others_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Others"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/gender_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ff0000"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/register_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Register"/>
+
+</LinearLayout>
+
+------------------------------------------------------------------- Java Code -------------------------------------------------------------------
+
+package com.example.loginformques01;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Patterns;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
+public class SharedPreferencesQues05Activity extends AppCompatActivity {
+
+    EditText fullname, emailid, password;
+    RadioGroup gender_radioGroup;
+    RadioButton male_gender, female_gender, others_gender;
+    Button register_btn;
+    TextView gender_error;
+    LinearLayout main_layout;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_shared_preferences_ques05);
+
+        fullname= findViewById(R.id.fullname);
+        emailid= findViewById(R.id.emailid);
+        password= findViewById(R.id.password);
+        gender_radioGroup= findViewById(R.id.gender_radioGroup);
+        male_gender= findViewById(R.id.male_gender);
+        female_gender= findViewById(R.id.female_gender);
+        others_gender= findViewById(R.id.others_gender);
+        register_btn= findViewById(R.id.register_btn);
+        gender_error= findViewById(R.id.gender_error);
+        main_layout= findViewById(R.id.main_layout);
+
+        register_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                main_layout.clearFocus();
+                gender_error.setText("");
+                String password_regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$";
+                String fullname_text= fullname.getText().toString();
+                String emailid_text= emailid.getText().toString();
+                String password_text= password.getText().toString();
+                int gender_selected= gender_radioGroup.getCheckedRadioButtonId();
+
+                if(fullname_text.equals("")){
+                    fullname.requestFocus();
+                    fullname.setError("Please enter fullname !!");
+                }
+                else if(fullname_text.length() < 3){
+                    fullname.requestFocus();
+                    fullname.setError("Fullname should be more than 2 characters !!");
+                }
+                else if(emailid_text.equals("")){
+                    emailid.requestFocus();
+                    emailid.setError("Please enter email-id !!");
+                }
+                else if(!Patterns.EMAIL_ADDRESS.matcher(emailid_text).matches()){
+                    emailid.requestFocus();
+                    emailid.setError("Please enter a valid email-id !!");
+                }
+                else if(gender_selected < 0){
+                    gender_error.setText("Select anyone of the gender option !!");
+                }
+                else if(!password_text.matches(password_regex)){
+                    password.requestFocus();
+                    password.setError("Password should contain - \na digit must occur at least once\na lower case letter must occur at least once\nan upper case letter must occur at least once\na special character like @#$%^&+=\nNo blank spaces allowed\natleast 6 characters");
+                }
+                else{
+                    fullname.setError("");
+                    emailid.setError("");
+                    gender_error.setText("");
+                    password.setError("");
+
+                    SharedPreferences pref= getSharedPreferences("register_data", MODE_PRIVATE);
+                    SharedPreferences.Editor pref_edit= pref.edit();
+                    pref_edit.putString("reg_fullname",fullname_text);
+                    pref_edit.putString("reg_emailid",emailid_text);
+                    pref_edit.putString("reg_password",password_text);
+                    pref_edit.putInt("reg_gender",gender_selected);
+                    pref_edit.apply();
+
+                    Intent intent= new Intent(getApplicationContext(),SharedPreferencesResultPageActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+}
+
+####################################################################################################################################################
+
+
+User Details Result Page
+------------------------------------------------------------------- XML Code -------------------------------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="10dp"
+    tools:context=".SharedPreferencesResultPageActivity">
+
+    <TextView
+        android:id="@+id/fullname_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Name : "/>
+
+    <TextView
+        android:id="@+id/emailid_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Name : "/>
+
+    <TextView
+        android:id="@+id/gender_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Gender : "/>
+
+    <TextView
+        android:id="@+id/password_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Password : "/>
+
+
+
+</LinearLayout>
+
+------------------------------------------------------------------- Java Code -------------------------------------------------------------------
+
+package com.example.loginformques01;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class SharedPreferencesResultPageActivity extends AppCompatActivity {
+
+    TextView fullname_result, emailid_result, gender_result, password_result;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_shared_preferences_result_page);
+
+        fullname_result= findViewById(R.id.fullname_result);
+        emailid_result= findViewById(R.id.emailid_result);
+        gender_result= findViewById(R.id.gender_result);
+        password_result= findViewById(R.id.password_result);
+
+        SharedPreferences pref= getSharedPreferences("register_data", MODE_PRIVATE);
+        String name= pref.getString("reg_fullname","Sample Name");
+        String email= pref.getString("reg_emailid","Sample Email");
+        String password= pref.getString("reg_password","Sample Password");
+        int gender_id= pref.getInt("reg_gender",0);
+
+        String gender;
+        if(gender_id==0)
+            gender= "Male";
+        else if(gender_id==1)
+            gender= "Female";
+        else if(gender_id==2)
+            gender= "Others";
+        else
+            gender="Sample Gender";
+
+        fullname_result.setText(name);
+        emailid_result.setText(email);
+        gender_result.setText(gender);
+        password_result.setText(password);
+    }
+}

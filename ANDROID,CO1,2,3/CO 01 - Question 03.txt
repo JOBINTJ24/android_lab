@@ -1,0 +1,164 @@
+
+------------------------------------------------------------- XML Code -------------------------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".ArithmeticCalculatorQues03Activity">
+
+    <EditText
+        android:id="@+id/number1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:hint="Enter Number 01"/>
+
+    <EditText
+        android:id="@+id/number2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="10dp"
+        android:hint="Enter Number 02"/>
+
+    <TextView
+        android:id="@+id/result_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="17sp"/>
+
+    <Button
+        android:id="@+id/add_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/sub_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="-" />
+
+    <Button
+        android:id="@+id/mul_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="x" />
+
+    <Button
+        android:id="@+id/div_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="/" />
+
+    <Button
+        android:id="@+id/clear_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="clear" />
+
+</LinearLayout>
+
+------------------------------------------------------------- Java Code ------------------------------------------------------------- 
+
+package com.example.loginformques01;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class ArithmeticCalculatorQues03Activity extends AppCompatActivity {
+
+    EditText number1, number2;
+    TextView result_text;
+    Button add_btn, sub_btn, mul_btn, div_btn, clear_btn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_arithmetic_calculator_ques03);
+
+        number1= findViewById(R.id.number1);
+        number2= findViewById(R.id.number2);
+        result_text= findViewById(R.id.result_text);
+        add_btn= findViewById(R.id.add_btn);
+        sub_btn= findViewById(R.id.sub_btn);
+        mul_btn= findViewById(R.id.mul_btn);
+        div_btn= findViewById(R.id.div_btn);
+        clear_btn= findViewById(R.id.clear_btn);
+
+        add_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String number1_text= number1.getText().toString();
+                String number2_text= number2.getText().toString();
+                int num1= Integer.parseInt(number1_text);
+                int num2= Integer.parseInt(number2_text);
+                float sum= num1+num2;
+                result_text.setText("The addition of the two numbers is : "+sum);
+            }
+        });
+
+        sub_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String number1_text= number1.getText().toString();
+                String number2_text= number2.getText().toString();
+                int num1= Integer.parseInt(number1_text);
+                int num2= Integer.parseInt(number2_text);
+                float sub= num1-num2;
+                result_text.setText("The substraction of the two numbers is : "+sub);
+            }
+        });
+
+        mul_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String number1_text= number1.getText().toString();
+                String number2_text= number2.getText().toString();
+                int num1= Integer.parseInt(number1_text);
+                int num2= Integer.parseInt(number2_text);
+                float mul= num1*num2;
+                result_text.setText("The multiplication of the two numbers is : "+mul);
+            }
+        });
+
+        div_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String number1_text= number1.getText().toString();
+                String number2_text= number2.getText().toString();
+                int num1= Integer.parseInt(number1_text);
+                int num2= Integer.parseInt(number2_text);
+                float div= num1/num2;
+                result_text.setText("The division of the two numbers is : "+div);
+            }
+        });
+
+        clear_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                number1.setText("");
+                number2.setText("");
+            }
+        });
+    }
+}

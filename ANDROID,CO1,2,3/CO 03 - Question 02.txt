@@ -1,0 +1,122 @@
+
+First Activity
+------------------------------------------------------------------- XML Code -------------------------------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ExplicitIntentActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="First Activity"/>
+
+    <Button
+        android:id="@+id/next_page_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Next Activity"/>
+
+</LinearLayout>
+
+------------------------------------------------------------------- Java Code -------------------------------------------------------------------
+
+package com.example.loginformques01;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+public class ExplicitIntentActivity extends AppCompatActivity {
+
+    Button next_page_btn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_explicit_intent);
+
+        next_page_btn= findViewById(R.id.next_page_btn);
+
+        next_page_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(getApplicationContext(), SecondActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+}
+###############################################################################################################################################################
+
+
+
+
+Second Activity
+------------------------------------------------------------------- XML Code -------------------------------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".SecondActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Second Activity"/>
+
+    <Button
+        android:id="@+id/prev_page_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Previous Activity"/>
+
+</LinearLayout>
+
+------------------------------------------------------------------- Java Code -------------------------------------------------------------------
+
+package com.example.loginformques01;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+public class SecondActivity extends AppCompatActivity {
+
+    Button prev_page_btn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+
+        prev_page_btn= findViewById(R.id.prev_page_btn);
+
+        prev_page_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(getApplicationContext(),ExplicitIntentActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+}

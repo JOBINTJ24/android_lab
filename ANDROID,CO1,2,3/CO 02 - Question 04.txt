@@ -1,0 +1,57 @@
+
+------------------------------------------------------------------- XML Code -------------------------------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".FrameLayoutImageToggleActivity">
+
+    <ToggleButton
+        android:id="@+id/toggle_img_btn"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:textOff=""
+        android:textOn=""
+        android:background="@drawable/ic_unlocked"
+        android:layout_gravity="center"/>
+
+</FrameLayout>
+
+------------------------------------------------------------------- Java Code -------------------------------------------------------------------
+
+package com.example.loginformques01;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.FrameLayout;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+
+public class FrameLayoutImageToggleActivity extends AppCompatActivity {
+
+    ToggleButton toggle_img_btn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_frame_layout_image_toggle);
+
+        toggle_img_btn= findViewById(R.id.toggle_img_btn);
+
+        toggle_img_btn.setOnClickListener(v->{
+            if(toggle_img_btn.isChecked()){
+                toggle_img_btn.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_locked));
+                Toast.makeText(getApplicationContext(), "Application Locked Successfully.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                toggle_img_btn.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_unlocked));
+                Toast.makeText(getApplicationContext(), "Application Unlocked Successfully.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}

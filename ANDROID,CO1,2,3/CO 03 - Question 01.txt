@@ -1,0 +1,46 @@
+
+------------------------------------------------------------------- XML Code -------------------------------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ExceptionActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exception Activity"/>
+
+</LinearLayout>
+
+------------------------------------------------------------------- Java Code -------------------------------------------------------------------
+
+package com.example.optionsmenunavigation;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.Toast;
+
+public class ExceptionActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_exception);
+
+        try{
+            int n1=0, n2=0;
+            int a= n1/n2;
+            Toast.makeText(getApplicationContext(), "The value is : "+a, Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e){
+            Toast.makeText(getApplicationContext(), "The caught exception is : "+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+}
