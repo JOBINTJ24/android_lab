@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+<ListView
+android:id="@+id/listview"
+android:layout_width="match_parent"
+android:layout_height="match_parent" />
+</LinearLayout>
+
+
+
+
+
+package com.example.application;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+public class Ques13Activity extends AppCompatActivity {
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_ques13);
+ListView listview;
+String[] person_qualify = {"Front-End Developer", "Data Analyst", "Software Tester", "Software
+Developer", "Programming Analyst", "Web Developer", "Mobile App Developer", "Business Analyst",
+"Database Analyst"};
+listview = findViewById(R.id.listview);
+listview.setAdapter(new
+ArrayAdapter(getApplicationContext(),android.R.layout.simple_expandable_list_item_1, person_qualify));
+listview.setOnItemClickListener((parent, view, position, id) -> {
+Toast.makeText(this, "The qualification selected is - " + person_qualify[position],
+Toast.LENGTH_SHORT).show();
+});
+}
+}

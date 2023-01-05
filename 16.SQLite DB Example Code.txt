@@ -1,0 +1,238 @@
+####################################### acitivty_main XML Code #######################################
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Insert Table"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
+
+    <EditText
+        android:id="@+id/rollno"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your roll no"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="30dp"/>
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your name"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your email id"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/insert_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Insert"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/update_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/delete_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"/>
+
+</LinearLayout>
+
+
+####################################### MainActivity Java Code #######################################
+
+package com.example.dbconnectionexample;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText rollno, name, email;
+    Button insert_btn, update_btn, delete_btn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        rollno= findViewById(R.id.rollno);
+        name= findViewById(R.id.name);
+        email= findViewById(R.id.email);
+        insert_btn= findViewById(R.id.insert_btn);
+        update_btn= findViewById(R.id.update_btn);
+        delete_btn= findViewById(R.id.delete_btn);
+
+        insert_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int rollno_num= Integer.parseInt(rollno.getText().toString());
+                String name_txt= name.getText().toString();
+                String email_txt= email.getText().toString();
+
+                DetailsDBHelper db= new DetailsDBHelper(getApplicationContext());
+                boolean insert_result= db.insertToDB(rollno_num, name_txt, email_txt);
+                if(insert_result){
+                    Toast.makeText(MainActivity.this, "Inserted successfully.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "Insertion failed !!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        update_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int rollno_num= Integer.parseInt(rollno.getText().toString());
+                String name_txt= name.getText().toString();
+                String email_txt= email.getText().toString();
+
+                DetailsDBHelper db= new DetailsDBHelper(getApplicationContext());
+
+                boolean update_result= db.updateToDB(rollno_num, name_txt, email_txt);
+                if(update_result){
+                    Toast.makeText(MainActivity.this, "Updated successfully.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "Updation failed !!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        delete_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int rollno_num= Integer.parseInt(rollno.getText().toString());
+                DetailsDBHelper db= new DetailsDBHelper(getApplicationContext());
+
+                boolean update_result= db.deleteFromDB(rollno_num);
+                if(update_result){
+                    Toast.makeText(MainActivity.this, "Deleted successfully.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "Deletion failed !!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+}
+
+
+####################################### DetailsDBHelper Java Code (Database Code - Java) #######################################
+
+package com.example.dbconnectionexample;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.annotation.Nullable;
+
+public class DetailsDBHelper extends SQLiteOpenHelper {
+
+    public DetailsDBHelper(@Nullable Context context) { super(context, "MyDB", null, 1); }
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL("CREATE TABLE userdetails (rollno INTEGER PRIMARY KEY, name TEXT, email TEXT)");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS userdetails");
+    }
+
+    public boolean insertToDB(int rollno, String name, String email){
+        SQLiteDatabase db= this.getWritableDatabase();
+        ContentValues values= new ContentValues();
+        values.put("rollno",rollno);
+        values.put("name",name);
+        values.put("email",email);
+        long result= db.insert("userdetails",null,values);
+        if(result>=0){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean updateToDB(int rollno, String name, String email){
+        SQLiteDatabase db= this.getWritableDatabase();
+        ContentValues values= new ContentValues();
+        values.put("name",name);
+        values.put("email",email);
+        Cursor check_user= db.rawQuery("SELECT * from userdetails WHERE rollno=?",new String[]{String.valueOf(rollno)});
+        if(check_user.getCount() > 0){
+
+            long update_user_query= db.update("userdetails",values,"rollno=?",new String[]{String.valueOf(rollno)});
+            if(update_user_query >= 0){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean deleteFromDB(int rollno){
+        SQLiteDatabase db= this.getWritableDatabase();
+        Cursor check_user= db.rawQuery("SELECT * FROM userdetails WHERE rollno=?",new String[]{String.valueOf(rollno)});
+        if(check_user.getCount() > 0){
+            long delete_user_query= db.delete("userdetails","rollno=?", new String[]{String.valueOf(rollno)});
+            if(delete_user_query >= 0){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+}
+

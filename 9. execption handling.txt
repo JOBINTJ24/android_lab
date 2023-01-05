@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="center"
+android:orientation="vertical"
+tools:context=".Ques09Activity">
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Exception Activity"/>
+<TextView
+android:id="@+id/textview"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginTop="20dp"
+android:text="Value of 0 / 0 : "/>
+</LinearLayout>
+
+
+
+
+
+
+package com.example.application;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
+public class Ques09Activity extends AppCompatActivity {
+TextView textview;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_ques09);
+textview= findViewById(R.id.textview);
+try{
+int n1=0, n2=0;
+int a= n1/n2;
+textview.setText("Value of 0 / 0 : "+a);
+Toast.makeText(getApplicationContext(), "The value is : "+a, Toast.LENGTH_LONG).show();
+}
+catch (Exception e){
+Toast.makeText(getApplicationContext(), "The caught exception is : "+e.getMessage(),
+Toast.LENGTH_LONG).show();
+}
+}
+}

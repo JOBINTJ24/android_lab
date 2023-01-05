@@ -1,0 +1,74 @@
+
+---------------------Activity1----------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FACEBOOK"
+        android:textColor="#4267B2"
+        android:textSize="30dp" android:textStyle="bold"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="60dp"/>
+    <TextView
+        android:text="Log in to Facebook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:textSize="30dp" android:textStyle="bold"
+        android:gravity="center_horizontal"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:textSize="18sp"
+        android:gravity="center_horizontal"
+        android:elevation="1dp" android:hint="Email address or phone number"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="200dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:textSize="18sp"
+        android:gravity="center_horizontal"
+        android:hint="password"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="260dp"/>
+    <Button
+        android:text="Log In"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:layout_marginRight="150dp" android:layout_marginTop="330dp"
+        android:backgroundTint="#4267B2"/>
+
+</RelativeLayout>
+
+
+------------------------main.java------------------------
+
+package com.example.ques7;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}

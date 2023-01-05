@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="center"
+android:orientation="vertical"
+tools:context=".Ques14Activity">
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Mobile Quick-Access Options"
+android:layout_marginTop="30dp"
+android:textColor="@color/black"
+android:textSize="20sp"
+android:textStyle="bold"/>
+<GridLayout
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginTop="30dp"
+android:columnCount="3"
+android:orientation="horizontal"
+android:rowCount="3">
+<ImageButton
+android:id="@+id/wifi_btn"
+android:layout_width="80dp"
+android:layout_height="80dp"
+android:padding="13dp"
+android:src="@drawable/ic_wifi"
+android:textColor="@color/white" />
+<ImageButton
+android:id="@+id/blutooth_btn"
+android:layout_width="80dp"
+android:layout_height="80dp"
+android:layout_marginStart="10dp"
+android:padding="13dp"
+android:src="@drawable/ic_bluetooth"
+android:textColor="@color/white" />
+<ImageButton
+android:id="@+id/volume_btn"
+android:layout_width="80dp"
+android:layout_height="80dp"
+android:layout_marginStart="10dp"
+android:padding="13dp"
+android:src="@drawable/ic_volume"
+android:textColor="@color/white" />
+</GridLayout>
+</LinearLayout>
+
+
+
+
+
+
+
+package com.example.application;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
+public class Ques14Activity extends AppCompatActivity {
+ImageButton wifi_btn, blutooth_btn, volume_btn;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_ques14);
+wifi_btn= findViewById(R.id.wifi_btn);
+blutooth_btn= findViewById(R.id.blutooth_btn);
+volume_btn= findViewById(R.id.volume_btn);
+wifi_btn.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+myAlertBox("Wifi Button");
+}
+});
+blutooth_btn.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+myAlertBox("Bluetooth Button");
+}
+});
+volume_btn.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+myAlertBox("Volume Button");
+}
+});
+}
+public void myAlertBox(String buttonname){
+AlertDialog.Builder builder = new AlertDialog.Builder(Ques14Activity.this);
+builder.setMessage("Are you sure about the selection ?");
+builder.setTitle("Alert !");
+builder.setCancelable(false);
+builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+@Override
+public void onClick(DialogInterface dialogInterface, int i) {
+Toast.makeText(getApplicationContext(), buttonname+" is successfully selected.",
+Toast.LENGTH_SHORT).show();
+}
+});
+builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
+dialog.cancel();
+});
+AlertDialog alertDialog = builder.create();
+alertDialog.show();
+}
+}|
